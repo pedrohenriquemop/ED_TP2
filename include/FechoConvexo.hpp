@@ -9,7 +9,6 @@ class FechoConvexo {
    public:
     FechoConvexo(Ponto* arrPontos, int size) {
         pontosSize = size;
-        utils::printArray(arrPontos, pontosSize);
 
         pontos = new Ponto[pontosSize];
         utils::copyArray(arrPontos, pontos, size);
@@ -19,12 +18,11 @@ class FechoConvexo {
         delete[] pontos;
     }
 
-    void getFechoConvexoGrahamMerge() {
+    void getFechoConvexoGraham(int sortType = 0) {  // 0 = mergeSort, 1 = insertionSort, 2 = countingSort
         if (pontosSize < 3)
             return;
 
         Ponto* pontosCopy = new Ponto[pontosSize];
-
         utils::copyArray(pontos, pontosCopy, pontosSize);
 
         int minYIndex = findMinYIndex(pontosCopy, pontosSize);
@@ -38,7 +36,11 @@ class FechoConvexo {
             newPontos[i] = pontosCopy[i + 1];
         }
 
-        mergeSortPontos(newPontos, 0, newSize - 1);
+        if (sortType == 0) {
+            mergeSortPontos(newPontos, 0, newSize - 1);
+        } else if (sortType == 1) {
+            insertionSortPontos(newPontos, newSize);
+        }
 
         Stack<Ponto> stack;
         stack.push(p0);
@@ -51,14 +53,74 @@ class FechoConvexo {
             stack.push(newPontos[i]);
         }
 
-        cout << "PONTOS NO FECHO: " << endl;
+        string sortName = "countingSort";
+        if (sortType == 0)
+            sortName = "mergeSort";
+        else if (sortType == 1)
+            sortName = "insertionSort";
+
+        cout
+            << "FECHO GRAHAM (" << sortName << "): " << endl;
         stack.print();
+    }
+
+    void getFechoConvexoJarvis(int sortType = 0) {
+        if (pontosSize < 3)
+            return;
+
+        Ponto* pontosCopy = new Ponto[pontosSize];
+        utils::copyArray(pontos, pontosCopy, pontosSize);
+
+        int minXIndex = findMinXIndex(pontosCopy, pontosSize);
+
+        Stack<Ponto> fecho;
+
+        Ponto pivot = pontosCopy[minXIndex];  // ponto pivo
+        Ponto curr = pivot;                   // proximo ponto do fecho
+
+        do {
+            p0 = curr;
+            if (sortType == 0) {
+                mergeSortPontos(pontosCopy, 0, pontosSize - 1);
+            } else if (sortType == 1) {
+                insertionSortPontos(pontosCopy, pontosSize);
+            }
+
+            fecho.push(curr);
+            curr = pontosCopy[0];
+
+        } while (pivot != curr);
+
+        string sortName = "countingSort";
+        if (sortType == 0)
+            sortName = "mergeSort";
+        else if (sortType == 1)
+            sortName = "insertionSort";
+
+        cout
+            << "FECHO JARVIS (" << sortName << "): " << endl;
+        fecho.print();
     }
 
    private:
     Ponto* pontos;
     Ponto p0;
     int pontosSize;
+
+    int findMinXIndex(Ponto* pontos, int size) {
+        int minIndex = 0, xMin = pontos[0].getX();
+
+        for (int i = 1; i < size; i++) {
+            int x = pontos[i].getX();
+
+            if ((x < xMin) || (xMin == x && pontos[i].getY() < pontos[minIndex].getY())) {
+                xMin = x;
+                minIndex = i;
+            }
+        }
+
+        return minIndex;
+    }
 
     int findMinYIndex(Ponto* pontos, int size) {
         int minIndex = 0, yMin = pontos[0].getY();
@@ -73,6 +135,29 @@ class FechoConvexo {
         }
 
         return minIndex;
+    }
+
+    void insertionSortPontos(Ponto* arr, int size) {
+        Ponto p1, p2;
+        int j;
+        for (int i = 1; i < size; i++) {
+            p1 = arr[i];
+            j = i - 1;
+
+            while (j >= 0) {
+                p2 = arr[j];
+                int orientacao = Ponto::getOrientacao(p0, p1, p2);
+                if (orientacao == 0 && Ponto::calculaDistancia(p0, p1) < Ponto::calculaDistancia(p0, p2)) {
+                    break;
+                } else if (orientacao == 1) {
+                    break;
+                }
+
+                arr[j + 1] = arr[j];
+                j = j - 1;
+            }
+            arr[j + 1] = p1;
+        }
     }
 
     void mergeSortPontos(Ponto* pontos, int esq, int dir) {
@@ -107,8 +192,8 @@ class FechoConvexo {
 
             int orientacao = Ponto::getOrientacao(p0, p1, p2);
 
-            if (orientacao == 0) {                                                         // caso os pontos sejam colineares
-                if (Ponto::calculaDistancia(p0, p1) >= Ponto::calculaDistancia(p0, p2)) {  // o mais proximo de p0 vem antes
+            if (orientacao == 0) {  // caso os pontos sejam colineares
+                if (Ponto::calculaDistancia(p0, p1) >= Ponto::calculaDistancia(p0, p2)) {
                     pontos[mergedArrIndex] = p1;
                     arrEsqIndex++;
                 } else {

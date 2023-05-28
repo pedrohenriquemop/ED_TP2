@@ -44,9 +44,6 @@ Stack<Ponto> readDotsFromFile(string fileName) {
         while (in >> x) {
             in >> y;
             Ponto p = Ponto(x, y);
-            cout << "Ponto: ";
-            p.print();
-            cout << endl;
             stack.push(p);
         }
     }
@@ -98,13 +95,12 @@ int main() {
         pontosArray[i] = pontosStack.pop();
     }
 
-    for (int i = 0; i < size; i++) {
-        cout << pontosArray[i].toString() << endl;
-    }
-
     FechoConvexo f = FechoConvexo(pontosArray, size);
 
-    f.getFechoConvexoGrahamMerge();
+    f.getFechoConvexoGraham(0);
+    f.getFechoConvexoJarvis(0);
+    f.getFechoConvexoGraham(1);
+    f.getFechoConvexoJarvis(1);
 
     delete pontosArray;
 

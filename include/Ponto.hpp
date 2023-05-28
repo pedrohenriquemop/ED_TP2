@@ -23,6 +23,18 @@ class Ponto {
         return (val > 0) ? 1 : -1;  // sentido horario ou anti-horario
     }
 
+    bool operator==(Ponto &p) {
+        if (x == p.getX() && y == p.getY())
+            return true;
+        return false;
+    }
+
+    bool operator!=(Ponto &p) {
+        if (x == p.getX() && y == p.getY())
+            return false;
+        return true;
+    }
+
     int getX() {
         return x;
     }

@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "Utils.hpp"
+
 using namespace std;
 
 class Sorter {
@@ -30,8 +32,8 @@ class Sorter {
     }
 
     static void countingSort(int arr[], int size) {
-        int max = getMax(arr, size);
-        int min = getMin(arr, size);
+        int max = utils::getMax(arr, size);
+        int min = utils::getMin(arr, size);
         int range = max - min + 1;
 
         int* counter = new int[range];
@@ -103,25 +105,5 @@ class Sorter {
 
         delete[] arrEsq;
         delete[] arrDir;
-    }
-
-    static int getMax(int arr[], int size) {
-        int max = arr[0];
-
-        for (int i = 1; i < size; i++) {
-            if (arr[i] > max) max = arr[i];
-        }
-
-        return max;
-    }
-
-    static int getMin(int arr[], int size) {
-        int min = arr[0];
-
-        for (int i = 1; i < size; i++) {
-            if (arr[i] < min) min = arr[i];
-        }
-
-        return min;
     }
 };

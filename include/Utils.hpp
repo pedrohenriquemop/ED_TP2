@@ -30,4 +30,24 @@ void swap(Ponto& p1, Ponto& p2) {
     p1 = p2;
     p2 = temp;
 }
+
+int getMax(int arr[], int size) {
+    int max = arr[0];
+
+    for (int i = 1; i < size; i++) {
+        if (arr[i] > max) max = arr[i];
+    }
+
+    return max;
+}
+
+int getMin(int arr[], int size) {
+    int min = arr[0];
+
+    for (int i = 1; i < size; i++) {
+        if (arr[i] < min) min = arr[i];
+    }
+
+    return min;
+}
 }  // namespace utils
