@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Ponto.hpp"
-#include "Sorter.hpp"
 #include "Stack.hpp"
 #include "Utils.hpp"
 
@@ -42,12 +41,10 @@ class FechoConvexo {
 
         if (sortType == 0) {
             mergeSortPontos(newPontos, 0, newSize - 1);
-
-            // cout << "newPontos depois merge: " << newSize << endl;
-            // utils::printArray(newPontos, newSize);
-            // cout << "------------" << endl;
         } else if (sortType == 1) {
             insertionSortPontos(newPontos, newSize);
+        } else if (sortType == 2) {
+            bucketSortPontos(newPontos, newSize);
         }
 
         Stack<Ponto> stack;
@@ -96,6 +93,8 @@ class FechoConvexo {
                 mergeSortPontos(pontosCopy, 0, pontosSize - 1);
             } else if (sortType == 1) {
                 insertionSortPontos(pontosCopy, pontosSize);
+            } else if (sortType == 2) {
+                bucketSortPontos(pontosCopy, pontosSize);
             }
 
             fecho.push(curr);
@@ -149,35 +148,21 @@ class FechoConvexo {
         return minIndex;
     }
 
-    // void bucketSortPontos(Ponto* arr, int size) {
-    //     static int* bucket[10];
-    //     static int i, j[10], k, l, d = 1;
-    //     int c;
+    void bucketSortPontos(Ponto* arr, int size) {
+        Ponto buckets[1][size];
 
-    //     for (int i = 0; i < 10; i++) {
-    //         bucket[i] = new int[size];
-    //     }
-    //     c = utils::maxNumberOfDigits(arr, size);
+        for (int i = 0; i < size; i++) {
+            buckets[0][i] = arr[i];
+        }
 
-    //     for (int m = 0; m < c; m++) {
-    //         for (i = 0; i < 10; i++)
-    //             j[i] = 0;
-    //         for (i = 0; i < size; i++) {
-    //             k = (arr[i] / d) % 10;
-    //             bucket[k][j[k]] = arr[i];
-    //             j[k]++;
-    //         }
+        for (int i = 0; i < 1; i++)
+            insertionSortPontos(buckets[i], size);
 
-    //         l = 0;
-    //         for (i = 0; i < 10; i++) {
-    //             for (k = 0; k < j[i]; k++) {
-    //                 arr[l] = bucket[i][k];
-    //                 l++;
-    //             }
-    //         }
-    //         d *= 10;
-    //     }
-    // }
+        int index = 0;
+        for (int i = 0; i < 1; i++)
+            for (int j = 0; j < size; j++)
+                arr[index++] = buckets[i][j];
+    }
 
     void insertionSortPontos(Ponto* arr, int size) {
         Ponto p1, p2;

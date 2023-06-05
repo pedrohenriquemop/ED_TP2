@@ -6,7 +6,6 @@
 
 #include "FechoConvexo.hpp"
 #include "Ponto.hpp"
-#include "Sorter.hpp"
 #include "Stack.hpp"
 #include "Utils.hpp"
 
@@ -53,36 +52,6 @@ Stack<Ponto> readDotsFromFile(string fileName) {
     return stack;
 }
 
-void testSortingMethods() {
-    int SIZE = 20;
-
-    int* arr1 = gerenateRandomArray(SIZE);
-    int* arr2 = gerenateRandomArray(SIZE);
-    int* arr3 = gerenateRandomArray(SIZE);
-
-    cout << "Array 1: " << endl;
-    utils::printArray(arr1, SIZE);
-    Sorter::mergeSort(arr1, 0, SIZE - 1);
-    cout << "Array 1 mergeSort:" << endl;
-    utils::printArray(arr1, SIZE);
-
-    cout << "Array 2: " << endl;
-    utils::printArray(arr2, SIZE);
-    Sorter::insertionSort(arr2, SIZE);
-    cout << "Array 2 insertionSort:" << endl;
-    utils::printArray(arr2, SIZE);
-
-    cout << "Array 3: " << endl;
-    utils::printArray(arr3, SIZE);
-    Sorter::bucketSort(arr3, SIZE);
-    cout << "Array 3 bucketSort:" << endl;
-    utils::printArray(arr3, SIZE);
-
-    delete[] arr1;
-    delete[] arr2;
-    delete[] arr3;
-}
-
 int main(int argc, char** argv) {
     srand(time(0));
     int c;
@@ -109,6 +78,8 @@ int main(int argc, char** argv) {
             f.getFechoConvexoJarvis(0);
             f.getFechoConvexoGraham(1);
             f.getFechoConvexoJarvis(1);
+            f.getFechoConvexoGraham(2);
+            f.getFechoConvexoJarvis(2);
 
             delete pontosArray;
             break;
