@@ -18,7 +18,11 @@ class FechoConvexo {
         delete[] pontos;
     }
 
-    void getFechoConvexoGraham(int sortType = 0) {  // 0 = mergeSort, 1 = insertionSort, 2 = countingSort
+    void getFechoConvexoGraham(int sortType = 0) {  // 0 = mergeSort, 1 = insertionSort, 2 = bucketSort
+        if (sortType < 0 || sortType > 2) {
+            throw runtime_error("sortType must be 0, 1 or 2");
+        }
+
         if (pontosSize < 3)
             return;
 
@@ -38,6 +42,10 @@ class FechoConvexo {
 
         if (sortType == 0) {
             mergeSortPontos(newPontos, 0, newSize - 1);
+
+            // cout << "newPontos depois merge: " << newSize << endl;
+            // utils::printArray(newPontos, newSize);
+            // cout << "------------" << endl;
         } else if (sortType == 1) {
             insertionSortPontos(newPontos, newSize);
         }
@@ -53,7 +61,7 @@ class FechoConvexo {
             stack.push(newPontos[i]);
         }
 
-        string sortName = "countingSort";
+        string sortName = "bucketSort";
         if (sortType == 0)
             sortName = "mergeSort";
         else if (sortType == 1)
@@ -65,6 +73,10 @@ class FechoConvexo {
     }
 
     void getFechoConvexoJarvis(int sortType = 0) {
+        if (sortType < 0 || sortType > 2) {
+            throw runtime_error("sortType must be 0, 1 or 2");
+        }
+
         if (pontosSize < 3)
             return;
 
@@ -91,7 +103,7 @@ class FechoConvexo {
 
         } while (pivot != curr);
 
-        string sortName = "countingSort";
+        string sortName = "bucketSort";
         if (sortType == 0)
             sortName = "mergeSort";
         else if (sortType == 1)
@@ -136,6 +148,36 @@ class FechoConvexo {
 
         return minIndex;
     }
+
+    // void bucketSortPontos(Ponto* arr, int size) {
+    //     static int* bucket[10];
+    //     static int i, j[10], k, l, d = 1;
+    //     int c;
+
+    //     for (int i = 0; i < 10; i++) {
+    //         bucket[i] = new int[size];
+    //     }
+    //     c = utils::maxNumberOfDigits(arr, size);
+
+    //     for (int m = 0; m < c; m++) {
+    //         for (i = 0; i < 10; i++)
+    //             j[i] = 0;
+    //         for (i = 0; i < size; i++) {
+    //             k = (arr[i] / d) % 10;
+    //             bucket[k][j[k]] = arr[i];
+    //             j[k]++;
+    //         }
+
+    //         l = 0;
+    //         for (i = 0; i < 10; i++) {
+    //             for (k = 0; k < j[i]; k++) {
+    //                 arr[l] = bucket[i][k];
+    //                 l++;
+    //             }
+    //         }
+    //         d *= 10;
+    //     }
+    // }
 
     void insertionSortPontos(Ponto* arr, int size) {
         Ponto p1, p2;

@@ -1,3 +1,5 @@
+#include <unistd.h>
+
 #include <cmath>
 #include <fstream>
 #include <iostream>
@@ -72,8 +74,8 @@ void testSortingMethods() {
 
     cout << "Array 3: " << endl;
     utils::printArray(arr3, SIZE);
-    Sorter::countingSort(arr3, SIZE);
-    cout << "Array 3 countingSort:" << endl;
+    Sorter::bucketSort(arr3, SIZE);
+    cout << "Array 3 bucketSort:" << endl;
     utils::printArray(arr3, SIZE);
 
     delete[] arr1;
@@ -81,28 +83,41 @@ void testSortingMethods() {
     delete[] arr3;
 }
 
-int main() {
+int main(int argc, char** argv) {
     srand(time(0));
+    int c;
 
-    // generateRandomInputDots(20);
-    Stack<Ponto> pontosStack = readDotsFromFile("dots.in");
+    c = getopt(argc, argv, "i:");
 
-    int size = pontosStack.getSize();
+    switch (c) {
+        case 'i': {
+            cout << "argumento para i: " << optarg << endl;
+            // generateRandomInputDots(20);
+            Stack<Ponto> pontosStack = readDotsFromFile(optarg);
 
-    Ponto* pontosArray = new Ponto[size];
+            int size = pontosStack.getSize();
 
-    for (int i = 0; i < size; i++) {
-        pontosArray[i] = pontosStack.pop();
+            Ponto* pontosArray = new Ponto[size];
+
+            for (int i = 0; i < size; i++) {
+                pontosArray[i] = pontosStack.pop();
+            }
+
+            FechoConvexo f = FechoConvexo(pontosArray, size);
+
+            f.getFechoConvexoGraham(0);
+            f.getFechoConvexoJarvis(0);
+            f.getFechoConvexoGraham(1);
+            f.getFechoConvexoJarvis(1);
+
+            delete pontosArray;
+            break;
+        }
+        default: {
+            cout << "Argumento inválido" << endl;
+            break;
+        }
     }
-
-    FechoConvexo f = FechoConvexo(pontosArray, size);
-
-    f.getFechoConvexoGraham(0);
-    f.getFechoConvexoJarvis(0);
-    f.getFechoConvexoGraham(1);
-    f.getFechoConvexoJarvis(1);
-
-    delete pontosArray;
 
     return 0;
 }

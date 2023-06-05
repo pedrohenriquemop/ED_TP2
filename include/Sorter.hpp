@@ -31,35 +31,34 @@ class Sorter {
         }
     }
 
-    static void countingSort(int arr[], int size) {
-        int max = utils::getMax(arr, size);
-        int min = utils::getMin(arr, size);
-        int range = max - min + 1;
+    static void bucketSort(int arr[], int size) {
+        static int* bucket[10];
+        static int i, j[10], k, l, d = 1;
+        int c;
 
-        int* counter = new int[range];
-
-        for (int i = 0; i < range; i++) {
-            counter[i] = 0;
+        for (int i = 0; i < 10; i++) {
+            bucket[i] = new int[size];
         }
+        c = utils::maxNumberOfDigits(arr, size);
 
-        int* saida = new int[size];
+        for (int m = 0; m < c; m++) {
+            for (i = 0; i < 10; i++)
+                j[i] = 0;
+            for (i = 0; i < size; i++) {
+                k = (arr[i] / d) % 10;
+                bucket[k][j[k]] = arr[i];
+                j[k]++;
+            }
 
-        for (int i = 0; i < size; i++)
-            counter[arr[i] - min]++;
-
-        for (int i = 1; i < range; i++)
-            counter[i] += counter[i - 1];
-
-        for (int i = size - 1; i >= 0; i--) {
-            saida[counter[arr[i] - min] - 1] = arr[i];
-            counter[arr[i] - min]--;
+            l = 0;
+            for (i = 0; i < 10; i++) {
+                for (k = 0; k < j[i]; k++) {
+                    arr[l] = bucket[i][k];
+                    l++;
+                }
+            }
+            d *= 10;
         }
-
-        for (int i = 0; i < size; i++)
-            arr[i] = saida[i];
-
-        delete[] counter;
-        delete[] saida;
     }
 
    private:

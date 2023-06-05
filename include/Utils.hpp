@@ -50,4 +50,9 @@ int getMin(int arr[], int size) {
 
     return min;
 }
+
+int maxNumberOfDigits(int arr[], int size) {
+    int max = getMax(arr, size);
+    return ((int)log10(max)) + 1;
+}
 }  // namespace utils
