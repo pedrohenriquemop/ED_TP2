@@ -1,8 +1,12 @@
 #pragma once
 
+#include <chrono>
+
 #include "Ponto.hpp"
 #include "Stack.hpp"
 #include "Utils.hpp"
+
+chrono::_V2::high_resolution_clock::time_point TIME_COUNTER;
 
 class FechoConvexo {
    public:
@@ -17,13 +21,14 @@ class FechoConvexo {
         delete[] pontos;
     }
 
-    void getFechoConvexoGraham(int sortType = 0) {  // 0 = mergeSort, 1 = insertionSort, 2 = bucketSort
+    unsigned long getFechoConvexoGraham(int sortType = 0, bool printResult = true) {  // 0 = mergeSort, 1 = insertionSort, 2 = bucketSort
+        startTimer();
         if (sortType < 0 || sortType > 2) {
             throw runtime_error("sortType must be 0, 1 or 2");
         }
 
         if (pontosSize < 3)
-            return;
+            throw runtime_error("Points array must have at least 3 elements");
 
         Ponto* pontosCopy = new Ponto[pontosSize];
         utils::copyArray(pontos, pontosCopy, pontosSize);
@@ -64,18 +69,25 @@ class FechoConvexo {
         else if (sortType == 1)
             sortName = "insertionSort";
 
-        cout
-            << "FECHO GRAHAM (" << sortName << "): " << endl;
-        stack.print();
+        unsigned long elapsed = endTimer();
+
+        if (printResult) {
+            cout
+                << "FECHO GRAHAM (" << sortName << ") (" << elapsed << " ns): " << endl;
+            stack.print();
+        }
+
+        return elapsed;
     }
 
-    void getFechoConvexoJarvis(int sortType = 0) {
+    unsigned long getFechoConvexoJarvis(int sortType = 0, bool printResult = true) {
+        startTimer();
         if (sortType < 0 || sortType > 2) {
             throw runtime_error("sortType must be 0, 1 or 2");
         }
 
         if (pontosSize < 3)
-            return;
+            throw runtime_error("Points array must have at least 3 elements");
 
         Ponto* pontosCopy = new Ponto[pontosSize];
         utils::copyArray(pontos, pontosCopy, pontosSize);
@@ -108,15 +120,31 @@ class FechoConvexo {
         else if (sortType == 1)
             sortName = "insertionSort";
 
-        cout
-            << "FECHO JARVIS (" << sortName << "): " << endl;
-        fecho.print();
+        unsigned long elapsed = endTimer();
+
+        if (printResult) {
+            cout
+                << "FECHO JARVIS (" << sortName << ") (" << elapsed << " ns): " << endl;
+            fecho.print();
+        }
+
+        return elapsed;
     }
 
    private:
     Ponto* pontos;
     Ponto p0;
     int pontosSize;
+
+    void startTimer() {
+        TIME_COUNTER = chrono::high_resolution_clock::now();
+    }
+
+    unsigned long endTimer(string msg = "Elapsed: ") {
+        unsigned long durationNs = chrono::duration_cast<chrono::nanoseconds>(chrono::high_resolution_clock::now() - TIME_COUNTER).count();
+
+        return durationNs;
+    }
 
     int findMinXIndex(Ponto* pontos, int size) {
         int minIndex = 0, xMin = pontos[0].getX();
