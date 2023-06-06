@@ -1,5 +1,6 @@
 #include <cmath>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 
 #include "FechoConvexo.hpp"
@@ -59,10 +60,10 @@ int main(int argc, char** argv) {
         unsigned long jarvis = f.getFechoConvexoJarvis(true);
 
         cout << endl;
-        cout << "GRAHAM+MERGESORT: " << ((double)grahamMerge / 1000000) << "ms" << endl;
-        cout << "GRAHAM+INSERTIONSORT: " << ((double)grahamInsertion / 1000000) << "ms" << endl;
-        cout << "GRAHAM+LINEAR: " << ((double)grahamBucket / 1000000) << "ms" << endl;
-        cout << "JARVIS: " << ((double)jarvis / 1000000) << "ms" << endl;
+        cout << "GRAHAM+MERGESORT: " << fixed << setprecision(3) << ((double)((double)grahamMerge / 1000000) / 1000) << "s" << endl;
+        cout << "GRAHAM+INSERTIONSORT: " << fixed << setprecision(3) << ((double)((double)grahamInsertion / 1000000) / 1000) << "s" << endl;
+        cout << "GRAHAM+LINEAR: " << fixed << setprecision(3) << ((double)((double)grahamBucket / 1000000) / 1000) << "s" << endl;
+        cout << "JARVIS: " << fixed << setprecision(3) << ((double)((double)jarvis / 1000000) / 1000) << "s" << endl;
 
         delete pontosArray;
 
