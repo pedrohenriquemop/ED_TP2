@@ -63,18 +63,15 @@ unsigned long FechoConvexo::getFechoConvexoGraham(int sortType, bool printResult
 
     if (printResult) {
         cout
-            << "FECHO GRAHAM (" << sortName << ") (" << elapsed << " ns): " << endl;
+            << "FECHO CONVEXO:" << endl;
         stack.print();
     }
 
     return elapsed;
 }
 
-unsigned long FechoConvexo::getFechoConvexoJarvis(int sortType, bool printResult) {
+unsigned long FechoConvexo::getFechoConvexoJarvis(bool printResult) {
     startTimer();
-    if (sortType < 0 || sortType > 2) {
-        throw runtime_error("sortType must be 0, 1 or 2");
-    }
 
     if (pontosSize < 3)
         throw runtime_error("Points array must have at least 3 elements");
@@ -82,39 +79,31 @@ unsigned long FechoConvexo::getFechoConvexoJarvis(int sortType, bool printResult
     Ponto* pontosCopy = new Ponto[pontosSize];
     utils::copyArray(pontos, pontosCopy, pontosSize);
 
-    int minXIndex = findMinXIndex(pontosCopy, pontosSize);
+    int minYIndex = findMinYIndex(pontosCopy, pontosSize);
 
     Stack<Ponto> fecho;
 
-    Ponto pivot = pontosCopy[minXIndex];  // ponto pivo
-    Ponto curr = pivot;                   // proximo ponto do fecho
+    int pivotIndex = minYIndex;
+    int currentIndex;
 
     do {
-        p0 = curr;
-        if (sortType == 0) {
-            mergeSortPontos(pontosCopy, 0, pontosSize - 1);
-        } else if (sortType == 1) {
-            insertionSortPontos(pontosCopy, pontosSize);
-        } else if (sortType == 2) {
-            bucketSortPontos(pontosCopy, pontosSize);
+        currentIndex = (pivotIndex + 1) % pontosSize;
+
+        for (int i = 0; i < pontosSize; i++) {
+            if (Ponto::getOrientacao(pontosCopy[pivotIndex], pontosCopy[i], pontosCopy[currentIndex]) == 1)
+                currentIndex = i;
         }
 
-        fecho.push(curr);
-        curr = pontosCopy[0];
+        fecho.push(pontosCopy[currentIndex]);
 
-    } while (pivot != curr);
-
-    string sortName = "bucketSort";
-    if (sortType == 0)
-        sortName = "mergeSort";
-    else if (sortType == 1)
-        sortName = "insertionSort";
+        pivotIndex = currentIndex;
+    } while (pivotIndex != minYIndex);
 
     unsigned long elapsed = endTimer();
 
     if (printResult) {
         cout
-            << "FECHO JARVIS (" << sortName << ") (" << elapsed << " ns): " << endl;
+            << "FECHO CONVEXO:" << endl;
         fecho.print();
     }
 

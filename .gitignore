@@ -3,4 +3,5 @@ bin/*
 obj/*
 !obj/.gitkeep
 .vscode
+*.in
 *.out

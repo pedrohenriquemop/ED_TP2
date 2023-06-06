@@ -74,12 +74,16 @@ int main(int argc, char** argv) {
 
             FechoConvexo f = FechoConvexo(pontosArray, size);
 
-            unsigned long elapsedGrahamMerge = f.getFechoConvexoGraham(0, false);
-            unsigned long elapsedJarvisMerge = f.getFechoConvexoJarvis(0);
-            unsigned long elapsedGrahamInsertion = f.getFechoConvexoGraham(1, false);
-            unsigned long elapsedJarvisInsertion = f.getFechoConvexoJarvis(1, false);
-            unsigned long elapsedGrahamBucket = f.getFechoConvexoGraham(2, false);
-            unsigned long elapsedJarvisBucket = f.getFechoConvexoJarvis(2, false);
+            unsigned long grahamMerge = f.getFechoConvexoGraham(0);
+            unsigned long grahamInsertion = f.getFechoConvexoGraham(1);
+            unsigned long grahamBucket = f.getFechoConvexoGraham(2);
+            unsigned long jarvis = f.getFechoConvexoJarvis(true);
+
+            cout << endl;
+            cout << "GRAHAM+MERGESORT: " << ((double)grahamMerge / 1000000) << "ms" << endl;
+            cout << "GRAHAM+INSERTIONSORT: " << ((double)grahamInsertion / 1000000) << "ms" << endl;
+            cout << "GRAHAM+LINEAR: " << ((double)grahamBucket / 1000000) << "ms" << endl;
+            cout << "JARVIS: " << ((double)jarvis / 1000000) << "ms" << endl;
 
             delete pontosArray;
             break;

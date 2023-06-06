@@ -12,9 +12,9 @@ class FechoConvexo {
 
     ~FechoConvexo();
 
-    unsigned long getFechoConvexoGraham(int sortType = 0, bool printResult = true);
+    unsigned long getFechoConvexoGraham(int sortType = 0, bool printResult = false);
 
-    unsigned long getFechoConvexoJarvis(int sortType = 0, bool printResult = true);
+    unsigned long getFechoConvexoJarvis(bool printResult = false);
 
    private:
     Ponto* pontos;
