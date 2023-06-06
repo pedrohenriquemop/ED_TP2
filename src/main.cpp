@@ -11,28 +11,6 @@
 
 using namespace std;
 
-int* gerenateRandomArray(int size) {
-    int* arr = new int[size];
-
-    int maxRand = max(100, (int)pow(10, (int)log10(size)));
-
-    for (int i = 0; i < size; i++) {
-        arr[i] = rand() % maxRand;
-    }
-
-    return arr;
-}
-
-void generateRandomInputDots(int size) {
-    ofstream out("dots.in");
-
-    for (int i = 0; i < size; i++) {
-        out << rand() % 100 << " " << rand() % 100 << endl;
-    }
-
-    out.close();
-}
-
 Stack<Ponto> readDotsFromFile(string fileName) {
     ifstream in;
     in.open(fileName);
@@ -60,8 +38,6 @@ int main(int argc, char** argv) {
 
     switch (c) {
         case 'i': {
-            cout << "argumento para i: " << optarg << endl;
-            // generateRandomInputDots(20);
             Stack<Ponto> pontosStack = readDotsFromFile(optarg);
 
             int size = pontosStack.getSize();
