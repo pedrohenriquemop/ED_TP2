@@ -60,7 +60,7 @@ class Stack {
 
     void print() {  // imprime o estado atual da pilha
         for (int i = size - 1; i >= 0; i--) {
-            cout << (size - i) << "|\t" << items[i].toString() << endl;
+            cout << items[i].toString() << endl;
         }
     }
 

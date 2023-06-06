@@ -56,7 +56,7 @@ class Ponto {
     }
 
     string toString() {
-        return "(" + to_string(x) + ", " + to_string(y) + ")";
+        return to_string(x) + " " + to_string(y);
     }
 
    private:

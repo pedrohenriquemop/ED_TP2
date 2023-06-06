@@ -74,12 +74,12 @@ int main(int argc, char** argv) {
 
             FechoConvexo f = FechoConvexo(pontosArray, size);
 
-            f.getFechoConvexoGraham(0);
-            f.getFechoConvexoJarvis(0);
-            f.getFechoConvexoGraham(1);
-            f.getFechoConvexoJarvis(1);
-            f.getFechoConvexoGraham(2);
-            f.getFechoConvexoJarvis(2);
+            unsigned long elapsedGrahamMerge = f.getFechoConvexoGraham(0, false);
+            unsigned long elapsedJarvisMerge = f.getFechoConvexoJarvis(0);
+            unsigned long elapsedGrahamInsertion = f.getFechoConvexoGraham(1, false);
+            unsigned long elapsedJarvisInsertion = f.getFechoConvexoJarvis(1, false);
+            unsigned long elapsedGrahamBucket = f.getFechoConvexoGraham(2, false);
+            unsigned long elapsedJarvisBucket = f.getFechoConvexoJarvis(2, false);
 
             delete pontosArray;
             break;
