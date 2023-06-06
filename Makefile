@@ -11,7 +11,7 @@ CFLAGS = -Wall -c -I$(INC)
 EXE = $(BIN)/main
 
 run: $(EXE)
-	$(EXE) -i points.in
+	$(EXE) fecho points.in
 
 $(BIN)/main: $(OBJS)
 	$(CC) -pg -o $(BIN)/main $(OBJS) $(LIBS)
