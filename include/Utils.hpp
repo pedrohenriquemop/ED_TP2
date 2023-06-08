@@ -18,6 +18,4 @@ void swap(Ponto& p1, Ponto& p2);
 int getMax(int arr[], int size);
 
 int getMin(int arr[], int size);
-
-int maxNumberOfDigits(int arr[], int size);
 }  // namespace utils

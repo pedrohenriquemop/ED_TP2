@@ -35,7 +35,7 @@ class Stack {
         return items[top];
     }
 
-    T getSecond() {
+    T getSecond() {  // retorna o elemento abaixo do topo da pilha
         if (isEmpty())
             throw runtime_error("Stack is empty.");
 

@@ -43,8 +43,3 @@ int utils::getMin(int arr[], int size) {
 
     return min;
 }
-
-int utils::maxNumberOfDigits(int arr[], int size) {
-    int max = getMax(arr, size);
-    return ((int)log10(max)) + 1;
-}
